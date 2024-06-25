@@ -9,7 +9,7 @@
                 <small class="text-muted">{{ $subtitle ?? 'Subtitle' }}</small>
             </div>
             <div class="widget-icon">
-                <div class="icon" data-color="#00eccf">
+                <div class="icon" data-color="red">
                     <i class="icon-copy dw dw-{{ $icon ?? 'folder' }}"></i>
                 </div>
             </div>

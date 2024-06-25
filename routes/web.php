@@ -18,7 +18,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $title = 'Home';
+    return view('pages.index', ['title' => $title]);
+});
+Route::get('/penjual', function () {
+    $title = 'Penjual';
+    return view('pages.penjual', ['title' => $title]);
+});
+Route::get('/produk', function () {
+    $title = 'Produk';
+    return view('pages.produk', ['title' => $title]);
 });
 
 Auth::routes();
