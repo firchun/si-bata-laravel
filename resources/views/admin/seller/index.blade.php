@@ -18,14 +18,12 @@
                 <div class="card-body">
                     <h2>{{ $title }}</h2>
                 </div>
-                <table id="datatable-users" class="table table-hover display">
+                <table id="datatable-seller" class="table table-h0ver  display mb-3">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Avatar</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th>nama</th>
+                            <th>Alamat</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -33,10 +31,8 @@
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>Avatar</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th>nama</th>
+                            <th>Alamat</th>
                             <th>Action</th>
                         </tr>
                     </tfoot>
@@ -44,6 +40,6 @@
             </div>
         </div>
     </div>
-    @include('admin.users.components.modal')
+    @include('admin.seller.components.modal')
 @endsection
-@include('admin.users.script')
+@include('admin.seller.script')

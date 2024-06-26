@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('stok', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone');
-            $table->text('address')->nullable();
+            $table->foreignId('id_seller');
+            $table->integer('jumlah');
+            $table->enum('jenis', ['Masuk', 'Penjualan']);
             $table->timestamps();
+
+            $table->foreign('id_seller')->references('id')->on('seller');
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('stok');
     }
 };

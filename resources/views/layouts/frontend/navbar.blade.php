@@ -9,13 +9,29 @@
                 <ul class="navbar-nav mx-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url('/penjual') }}">Penjual</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/produk') }}">Produk</a></li>
+                    @guest
+                    @else
+                        @if (Auth::user()->role == 'User')
+                            <li class="nav-item"><a class="nav-link text-danger" href="{{ url('/penjual') }}">Pesanan
+                                    Saya</a></li>
+                        @endif
+                    @endguest
                 </ul>
                 @guest
                     <a href="{{ route('login') }}" class="btn btn-sm btn-outline-primary ml-lg-4">Login</a>
                     <a href="{{ route('register') }}" class="btn btn-sm btn-primary ml-lg-4">Register</a>
                 @else
-                    <a href="{{ route('home') }}" class="btn btn-sm btn-primary ml-lg-4">Dashboard</a>
+                    @if (Auth::user()->role == 'User')
+                        <a href="{{ route('akun') }}" class="btn btn-sm btn-outline-primary ml-lg-4">Akun</a>
+                        <a href="{{ route('logout') }}" class="btn btn-sm btn-primary ml-lg-4"
+                            onclick="event.preventDefault();
+                 document.getElementById('logout-form').submit();">Logout</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    @else
+                        <a href="{{ route('home') }}" class="btn btn-sm btn-primary ml-lg-4">Dashboard</a>
+                    @endif
                 @endguest
             </div>
         </nav>

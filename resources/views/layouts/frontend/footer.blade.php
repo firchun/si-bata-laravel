@@ -5,7 +5,6 @@
                 <ul class="list-inline footer-menu text-center text-lg-left">
                     <li class="list-inline-item"><a href="{{ url('/') }}">Home</a></li>
                     <li class="list-inline-item"><a href="{{ url('/penjual') }}">Penjual</a></li>
-                    <li class="list-inline-item"><a href="{{ url('/produk') }}">Produk</a></li>
                     @guest
                         <li class="list-inline-item"><a href="{{ route('login') }}">Login</a></li>
                         <li class="list-inline-item"><a href="{{ route('register') }}">Register</a></li>

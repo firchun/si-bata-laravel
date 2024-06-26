@@ -16,7 +16,21 @@
                         <div class="login-title mb-4">
                             <h2 class="text-center text-danger">Register To {{ env('APP_NAME') }}</h2>
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group  mb-2">
+                            <label class="col-form-label">Jenis Akun</label>
+                            <div class="">
+                                <select name="role" class="form-control">
+                                    <option value="User">Pelanggan</option>
+                                    <option value="Seller">Penjual</option>
+                                </select>
+                            </div>
+                            @error('role')
+                                <span class="text-danger" role="alert">
+                                    <small>{{ $message }}</small>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group  mb-2">
                             <label class="col-form-label">Email Address*</label>
                             <div class="">
                                 <input type="email" class="form-control" name="email" required />
@@ -27,7 +41,7 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group  mb-2">
                             <label class=" col-form-label">Nama Lengkap*</label>
                             <div class="">
                                 <input type="text" class="form-control" name="name" required />
@@ -38,7 +52,7 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group  mb-2">
                             <label class=" col-form-label">Password*</label>
                             <div class="">
                                 <input type="password" class="form-control" name="password" />
@@ -49,7 +63,7 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group  mb-2">
                             <label class=" col-form-label">Confirm Password*</label>
                             <div class="">
                                 <input type="password" class="form-control" name="password_confirmation" required

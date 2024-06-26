@@ -78,16 +78,19 @@
              <h2 class="section-title">Penjual Kami</h2>
              <div class=" row justify-content-center">
                  <!-- topic -->
-                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                     <div class="card match-height">
-                         <div class="card-body">
-                             <h3 class="card-title h4">Nama Penjual</h3>
-                             <img src="{{ asset('img/logo.png') }}" alt="foto">
-                             <p><span class="text-danger h4">Rp 1.000.000</span><small>/ ret</small></p>
-                             <a href="list.html" class="stretched-link"></a>
+                 @foreach ($seller as $item)
+                     <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
+                         <div class="card match-height">
+                             <div class="card-body">
+                                 <h3 class="card-title h5">{{ $item->nama }}</h3>
+                                 <img src="{{ asset('img/logo.png') }}" alt="foto">
+                                 <p><span class="text-danger h4">Rp {{ number_format($item->harga_batu) }}</span><small>/
+                                         ret</small></p>
+                                 <a href="{{ url('detail', $item->id) }}" class="stretched-link"></a>
+                             </div>
                          </div>
                      </div>
-                 </div>
+                 @endforeach
              </div>
          </div>
      </section>

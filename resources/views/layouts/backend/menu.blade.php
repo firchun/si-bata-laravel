@@ -106,22 +106,40 @@
                         <span class="micon bi bi-house"></span><span class="mtext">Dashboard</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('customers') }}"
-                        class="dropdown-toggle no-arrow {{ request()->is('customers*') ? 'active' : '' }}">
-                        <span class="micon bi bi-person"></span><span class="mtext">Customers</span>
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle">
-                        <span class="micon bi bi-people"></span><span class="mtext">Pengguna</span>
-                    </a>
-                    <ul class="submenu">
-                        <li><a href="{{ route('users') }}"
-                                class="{{ request()->is('users') ? 'active' : '' }}">Pengguna</a></li>
 
-                    </ul>
-                </li>
+                @if (Auth::user()->role == 'Admin')
+                    <li>
+                        <a href="{{ route('seller') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('seller') ? 'active' : '' }}">
+                            <span class="micon bi bi-shop"></span><span class="mtext">Toko</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon bi bi-people"></span><span class="mtext">Pengguna</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="{{ route('users') }}"
+                                    class="{{ request()->is('users') ? 'active' : '' }}">Pelanggan</a>
+                            </li>
+                            <li><a href="{{ route('users.seller') }}"
+                                    class="{{ request()->is('users/seller') ? 'active' : '' }}">Penjual</a>
+                            </li>
+                            <li><a href="{{ route('users.admin') }}"
+                                    class="{{ request()->is('users/admin') ? 'active' : '' }}">Admin</a>
+                            </li>
+                        </ul>
+                    </li>
+                @elseif(Auth::user()->role == 'Seller')
+                    @if (App\Models\Seller::where('id_user', Auth::id())->count() != 0)
+                        <li>
+                            <a href="{{ route('seller.seller') }}"
+                                class="dropdown-toggle no-arrow {{ request()->is('seller/seller') ? 'active' : '' }}">
+                                <span class="micon bi bi-shop"></span><span class="mtext">Toko Saya</span>
+                            </a>
+                        </li>
+                    @endif
+                @endif
 
                 <li>
                     <a href="{{ url('/profile') }}"
