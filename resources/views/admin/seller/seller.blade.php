@@ -3,15 +3,50 @@
 @section('content')
     @include('layouts.backend.alert')
     <div class="row">
-        <div class="col-lg-8 col-md-6">
-            <div class="card-box mb-30">
-                <div class="card-body">
-
-                    <h5>Data Pemesanan</h5>
+        <div class="col-lg-9 col-md-12">
+            <div class="dt-action-buttons text-end pt-3 pt-md-0 mb-4">
+                <div class=" btn-group " role="group">
+                    <button class="btn btn-secondary refresh btn-default" type="button">
+                        <span>
+                            <i class="bi bi-arrow-clockwise me-sm-1"> </i>
+                            <span class="d-none d-sm-inline-block">Refresh Data</span>
+                        </span>
+                    </button>
+                    <a href="" class="btn btn-primary">List Pengantaran</a>
                 </div>
             </div>
+            <div class="card-box mb-30">
+                <div class="card-body">
+                    <h2>Data Pemesanan</h2>
+                </div>
+                <table id="datatable-pesanan" class="table table-hover display table-sm">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>WA</th>
+                            <th>Pemesan</th>
+                            <th>Jumlah</th>
+                            <th>Total Harga</th>
+                            <th>Pengantaran</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>WA</th>
+                            <th>Pemesan</th>
+                            <th>Jumlah</th>
+                            <th>Total Harga</th>
+                            <th>Pengantaran</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
-        <div class="col-lg-4 col-md-6">
+
+        <div class="col-lg-3 col-md-4">
             <div class="card-box mb-30">
                 <div class="card-body">
                     <span>Saldo Toko</span>
@@ -65,3 +100,49 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $(function() {
+            $('#datatable-pesanan').DataTable({
+                processing: true,
+                serverSide: false,
+                responsive: false,
+                ajax: '{{ url('pesanan-datatable', $seller->id) }}',
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'wa',
+                        name: 'wa'
+                    },
+                    {
+                        data: 'pemesan',
+                        name: 'pemesan'
+                    },
+                    {
+                        data: 'jumlah',
+                        name: 'jumlah'
+                    },
+                    {
+                        data: 'harga',
+                        name: 'harga'
+                    },
+                    {
+                        data: 'pengantaran',
+                        name: 'pengantaran'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    },
+
+                ]
+            });
+            $('.refresh').click(function() {
+                $('#datatable-pesanan').DataTable().ajax.reload();
+            });
+
+        })
+    </script>
+@endpush

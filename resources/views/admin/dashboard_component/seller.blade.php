@@ -31,8 +31,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Harga Pengantaran</label>
+                                    <label>Harga Pengantaran </label>
                                     <input type="number" name="harga_pengantaran" class="form-control" value="0">
+                                    <small class="text-muted">(lewati jika tidak ada
+                                        pengantaran)</small>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -40,29 +42,57 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Foto Batu Bata 1 <span class="text-danger">*</span></label>
+                                    <label>Foto Produk 1 <span class="text-danger">*</span></label>
                                     <input type="file" name="foto_1" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Foto Batu Bata 2</label>
+                                    <label>Foto Produk 2</label>
                                     <input type="file" name="foto_2" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label>Foto Batun Bata 3</label>
+                                    <label>Foto Produk 3</label>
                                     <input type="file" name="foto_3" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label>Pengantaran <span class="text-danger">*</span></label>
-                                    <select name="pengantaran" class="form-control">
-                                        <option value="1">Pengantaran</option>
-                                        <option value="0">Ambil Ditempat</option>
-                                    </select>
+
+                            <div class="col-12">
+                                <div class="my-3 border border-mutted p-2"
+                                    style="border-radius: 10px; background-color:#fff3cd;color:#856404;">
+                                    <strong>Layanan yang tersedia</strong>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="mb-3">
+                                                <label>Pengantaran <span class="text-danger">*</span></label>
+                                                <select class="form-control" name="pengantaran" required>
+                                                    <option value="0">Tidak Tersedia</option>
+                                                    <option value="1">Tersedia</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="mb-3">
+                                                <label>Ambil ditempat <span class="text-danger">*</span></label>
+                                                <select class="form-control" name="ambil_ditempat" required>
+                                                    <option value="0">Tidak Tersedia</option>
+                                                    <option value="1">Tersedia</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6">
+                                            <div class="mb-3">
+                                                <label>Pre-order <span class="text-danger">*</span></label>
+                                                <select class="form-control" name="pre_order" required>
+                                                    <option value="0">Tidak Tersedia</option>
+                                                    <option value="1">Tersedia</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-12">

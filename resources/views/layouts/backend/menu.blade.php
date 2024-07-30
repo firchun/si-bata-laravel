@@ -138,6 +138,12 @@
                                 <span class="micon bi bi-shop"></span><span class="mtext">Toko Saya</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('report.seller_report') }}"
+                                class="dropdown-toggle no-arrow {{ request()->is('report/seller_report') ? 'active' : '' }}">
+                                <span class="micon bi bi-files"></span><span class="mtext">Laporan Toko</span>
+                            </a>
+                        </li>
                     @endif
                 @endif
 

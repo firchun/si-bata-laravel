@@ -12,7 +12,7 @@
                     @guest
                     @else
                         @if (Auth::user()->role == 'User')
-                            <li class="nav-item"><a class="nav-link text-danger" href="{{ url('/penjual') }}">Pesanan
+                            <li class="nav-item"><a class="nav-link text-danger" href="{{ url('/pesanan_user') }}">Pesanan
                                     Saya</a></li>
                         @endif
                     @endguest

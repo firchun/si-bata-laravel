@@ -83,9 +83,10 @@
                          <div class="card match-height">
                              <div class="card-body">
                                  <h3 class="card-title h5">{{ $item->nama }}</h3>
-                                 <img src="{{ asset('img/logo.png') }}" alt="foto">
+                                 <img src="{{ Storage::url($item->foto_1) }}" alt="foto">
                                  <p><span class="text-danger h4">Rp {{ number_format($item->harga_batu) }}</span><small>/
                                          ret</small></p>
+                                 <p><strong>Alamat </strong> : {{ $item->alamat }}</p>
                                  <a href="{{ url('detail', $item->id) }}" class="stretched-link"></a>
                              </div>
                          </div>
