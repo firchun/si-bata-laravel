@@ -5,11 +5,75 @@
             <div class="my-3 d-flex">
                 <a href="{{ route('pesanan_user') }}" class="btn btn-secondary mx-2">
                     Semua Pesanan</a>
-                <a href="https://wa.me/{{ $pesanan->seller->no_hp }}" target="__blank" class="btn btn-success ">Hubungi
+                <a href="https://wa.me/{{ $pesanan->seller->no_hp }}" target="__blank" class="btn btn-success mx-2">Hubungi
                     Toko</a>
+                @if ($pesanan->lunas == 0)
+                    @php
+                        $check_pembayaran = App\Models\Pembayaran::where('id_pesanan', $pesanan->id);
+                    @endphp
+                    @if (!$check_pembayaran)
+                        <a href="{{ route('bukti_bayar', $pesanan->no_invoice) }}" class="btn btn-primary ">Upload bukti
+                            pembayaran</a>
+                    @endif
+                @endif
             </div>
+            @if ($pesanan->lunas == 0)
+                @if (!$check_pembayaran)
+                    <div class="my-3">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>PANDUAN PEMBAYARAN</strong>
+                            <p>
+                                Setiap pemesanan dapat dibayarkan menggunakan metode transfer bank sebagai berikut :
+                            <ol>
+                                <li>Menuju ATM bank / membuka aplikasi mobile banking</li>
+                                <li>Mengisi nomor rekening tujuan (yang tertera di bawah ini)</li>
+                                <li>Mengisi kolom jumlah pembayaran sesuai dengan invoice <b>(Rp
+                                        {{ number_format($pesanan->total_harga) }})</b></li>
+                                <li>Mengisi berita acara = <b>BAYAR {{ $pesanan->no_invoice }}</b></li>
+                                <li>submit pembayaran</li>
+                            </ol>
+                            </p>
+                            <strong>Nomor Rekening Pembayaran :</strong>
+                            <ol>
+                                @foreach (App\Models\BankAdmin::all() as $item)
+                                    <li>{{ $item->bank->bank }} - An. {{ $item->nama }} ({{ $item->no_rek }})</li>
+                                @endforeach
+                            </ol>
+                        </div>
+                    </div>
+                @endif
+                @if ($check_pembayaran->first()->is_verified == 0)
+                    <div class="my-3">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Pembayaran anda menunggu untuk di konfirmasi oleh admin</strong>
+                        </div>
+                    </div>
+                @endif
+            @else
+                <div class="my-3">
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>Pesanan anda telah lunas, terimakasih telah memesan..</strong>
+                    </div>
+                </div>
+            @endif
+            @if ($pesanan->pengantaran == 1)
+                @if ($pesanan->diantar == 0)
+                    <div class="my-3">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Pesanan anda sedang disiapkan untuk diantar, harap menunggu..</strong>
+                        </div>
+                    </div>
+                @else
+                    <div class="my-3">
+                        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                            <strong>Pesanan anda telah diantar pada alamat yang telah disertakan pada saat
+                                pemesanan...</strong>
+                        </div>
+                    </div>
+                @endif
+            @endif
             <div class="p-3 shadow rounded">
-                <div class="row justify-content-between">
+                <div class="row justify-content-between px-3">
                     <h4 class="py-2">{{ $title }}</h4>
                     <h4 class="py-2 text-danger">Rp {{ number_format($pesanan->total_harga) }}</h4>
                 </div>

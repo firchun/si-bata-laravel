@@ -114,4 +114,27 @@
     <div class="title pb-20">
         <h2 class="h3 mb-0">Dashboard Overview</h2>
     </div>
+    <div class="row justify-content-center">
+        @include('admin.dashboard_component.card1', [
+            'count' => App\Models\Pesanan::getCountPesananSeller($seller->id),
+            'title' => 'Pesanan',
+            'subtitle' => 'Total pesanan toko',
+            'color' => 'primary',
+            'icon' => 'layers',
+        ])
+        @include('admin.dashboard_component.card1', [
+            'count' => App\Models\Stok::getStokSeller($seller->id),
+            'title' => 'Stok Batu',
+            'subtitle' => 'Total stok batu',
+            'color' => 'danger',
+            'icon' => 'layers',
+        ])
+        @include('admin.dashboard_component.card1', [
+            'count' => 0,
+            'title' => 'Saldo (Rp)',
+            'subtitle' => 'Total Saldo',
+            'color' => 'success',
+            'icon' => 'money',
+        ])
+    </div>
 @endif

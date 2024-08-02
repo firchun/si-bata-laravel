@@ -11,6 +11,7 @@ class Seller extends Model
     use HasFactory;
     protected $table = 'seller';
     protected $guarded = [];
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_user');

@@ -19,4 +19,14 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Seller::class, 'id_seller');
     }
+    static function getCountPesananUser($id_user)
+    {
+        $jumlah = Self::where('id_user', $id_user)->count();
+        return $jumlah;
+    }
+    static function getCountPesananSeller($id_seller)
+    {
+        $jumlah = Self::where('id_seller', $id_seller)->count();
+        return $jumlah;
+    }
 }

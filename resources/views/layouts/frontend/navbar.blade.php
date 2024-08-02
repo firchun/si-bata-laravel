@@ -13,7 +13,19 @@
                     @else
                         @if (Auth::user()->role == 'User')
                             <li class="nav-item"><a class="nav-link text-danger" href="{{ url('/pesanan_user') }}">Pesanan
-                                    Saya</a></li>
+                                    Saya
+                                    <span style=" width:30px; height:30px; border-radius:5px;"
+                                        class="p-1 bg-danger text-white">
+                                        {{ App\Models\Pesanan::getCountPesananUser(Auth::id()) }}
+                                    </span>
+                                </a></li>
+                            <li class="nav-item"><a class="nav-link text-danger" href="{{ url('/keranjang') }}">Keranjang
+                                    <span style=" width:30px; height:30px; border-radius:5px;"
+                                        class="p-1 bg-danger text-white">
+                                        {{ App\Models\Keranjang::getCountKeranjangUser(Auth::id()) }}
+                                    </span>
+                                </a>
+                            </li>
                         @endif
                     @endguest
                 </ul>

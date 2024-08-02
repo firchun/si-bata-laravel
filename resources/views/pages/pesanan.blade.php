@@ -16,13 +16,19 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if ($pesanan->count() == 0)
+                        <tr>
+                            <td colspan="6" class="text-center">Pesanan anda masih kosong, silahkan pesan <a
+                                    href="{{ url('/penjual') }}" class="text-danger">disini</a></td>
+                        </tr>
+                    @endif
                     @foreach ($pesanan as $item)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $loop->iteration }}</td>
                             <td><a
                                     href="{{ route('invoice', $item->no_invoice) }}"><strong>{{ $item->no_invoice }}</strong></a>
                             </td>
-                            <td>{{ $item->jumlah }}</td>
+                            <td>{{ $item->jumlah }} Ret</td>
                             <td class="text-danger">Rp {{ number_format($item->total_harga) }}</td>
                             <td>{{ $item->pengantaran == 1 ? 'Diantar' : 'Ambil ditempat' }}</td>
                             <td>

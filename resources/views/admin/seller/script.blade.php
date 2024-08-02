@@ -1,10 +1,11 @@
 @push('js')
+    <script src="{{ asset('backend_theme') }}/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     <script>
         $(function() {
             $('#datatable-seller').DataTable({
                 processing: true,
-                serverSide: true,
-                responsive: true,
+                serverSide: false,
+                responsive: false,
                 ajax: '{{ url('seller-datatable') }}',
                 columns: [{
                         data: 'id',
@@ -16,14 +17,29 @@
                         name: 'nama'
                     },
                     {
+                        data: 'user.name',
+                        name: 'user.name'
+                    },
+                    {
+                        data: 'harga_batu',
+                        name: 'harga_batu',
+                        render: function(data, type, row) {
+                            return 'Rp ' + data;
+                        }
+                    },
+                    {
+                        data: 'pengantaran',
+                        name: 'pengantaran',
+                        render: function(data, type, row) {
+                            return data == 1 ? '<span class="badge badge-success">Tersedia</span>' :
+                                '<span class="badge badge-warning">Tidak</span>';
+                        }
+                    },
+                    {
                         data: 'alamat',
                         name: 'alamat'
                     },
 
-                    {
-                        data: 'action',
-                        name: 'action'
-                    }
                 ]
             });
 
@@ -68,22 +84,20 @@
                     }
                 });
             });
-            $('#createCustomerBtn').click(function() {
-                var formData = $('#createUserForm').serialize();
+            $('#tambahStokBtn').click(function() {
+                var formData = $('#formTambahStok').serialize();
 
                 $.ajax({
                     type: 'POST',
-                    url: '/customers/store',
+                    url: '/stok/store',
                     data: formData,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
                         alert(response.message);
-                        $('#customersModalLabel').text('Edit Customer');
-                        $('#formCustomerName').val('');
-                        $('#datatable-customers').DataTable().ajax.reload();
-                        $('#create').modal('hide');
+                        $('#datatable-seller').DataTable().ajax.reload();
+                        $('#tambahStok').modal('hide');
                     },
                     error: function(xhr) {
                         alert('Terjadi kesalahan: ' + xhr.responseText);

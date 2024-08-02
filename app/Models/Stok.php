@@ -24,4 +24,9 @@ class Stok extends Model
 
         return $masuk - $penjualan;
     }
+    static function getStokSeller($id_seller){
+        $masuk = Self::where('id_seller',$id_seller)->where('jenis','Masuk')->sum('jumlah');
+        $penjualan = Self::where('id_seller',$id_seller)->where('jenis','Penjualan')->sum('jumlah');
+        return $masuk - $penjualan ;
+    }
 }

@@ -109,9 +109,46 @@
 
                 @if (Auth::user()->role == 'Admin')
                     <li>
+                        <a href="{{ route('bank') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('bank') ? 'active' : '' }}">
+                            <span class="micon bi bi-bank"></span><span class="mtext">Data Bank</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('bank.admin') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('bank/admin') ? 'active' : '' }}">
+                            <span class="micon bi bi-credit-card"></span><span class="mtext">Rekening Admin</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('bank.seller') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('bank/seller') ? 'active' : '' }}">
+                            <span class="micon bi bi-credit-card"></span><span class="mtext">Rekening Penjual</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('seller') }}"
                             class="dropdown-toggle no-arrow {{ request()->is('seller') ? 'active' : '' }}">
                             <span class="micon bi bi-shop"></span><span class="mtext">Toko</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('saldo') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('saldo') ? 'active' : '' }}">
+                            <span class="micon bi bi-cash-coin"></span><span class="mtext">Saldo Penjual</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('saldo.penarikan') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('saldo/penarikan') ? 'active' : '' }}">
+                            <span class="micon bi bi-cash-coin"></span><span class="mtext">Penarikan Saldo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('pembayaran') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('pembayaran') ? 'active' : '' }}">
+                            <span class="micon bi bi-person-check"></span><span class="mtext">Pembayaran
+                                pelanggan</span>
                         </a>
                     </li>
                     <li class="dropdown">
@@ -136,6 +173,12 @@
                             <a href="{{ route('seller.seller') }}"
                                 class="dropdown-toggle no-arrow {{ request()->is('seller/seller') ? 'active' : '' }}">
                                 <span class="micon bi bi-shop"></span><span class="mtext">Toko Saya</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('seller.pengantaran') }}"
+                                class="dropdown-toggle no-arrow {{ request()->is('seller/pengantaran') ? 'active' : '' }}">
+                                <span class="micon bi bi-truck"></span><span class="mtext">Pengantaran</span>
                             </a>
                         </li>
                         <li>

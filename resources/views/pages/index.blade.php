@@ -1,4 +1,7 @@
  @extends('layouts.frontend.app')
+ @push('css')
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+ @endpush
  @section('content')
      <!-- banner -->
      <section class="section pb-0">
@@ -8,12 +11,12 @@
                      <h1 class="mb-4">{{ env('APP_NAME') }}</h1>
                      <p class="mb-4">Percayakan keperluan batu bata untuk bangunan anda pada penjual kami, kemi melayani
                          dengan cepat, tepat dengan kualitas yang terpercaya...</p>
-                     <a href="" class="btn btn-primary">Lihat Penjual</a>
-                     {{-- <form class="search-wrapper" action="search.html">
-                         <input id="search-by" name="s" type="search" class="form-control form-control-lg"
-                             placeholder="Search Here...">
-                         <button type="submit" class="btn btn-primary">Search</button>
-                     </form> --}}
+                     @guest
+
+                         <a href="{{ url('/register') }}" class="btn btn-outline-primary">Daftar</a>
+                     @endguest
+                     <a href="{{ url('/penjual') }}" class="btn btn-primary">Lihat Penjual</a>
+
                  </div>
                  <div class="col-lg-4 d-lg-block d-none">
                      <img src="{{ asset('img/logo.png') }}" alt="illustration" class="img-fluid">
@@ -82,11 +85,15 @@
                      <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
                          <div class="card match-height">
                              <div class="card-body">
-                                 <h3 class="card-title h5">{{ $item->nama }}</h3>
-                                 <img src="{{ Storage::url($item->foto_1) }}" alt="foto">
-                                 <p><span class="text-danger h4">Rp {{ number_format($item->harga_batu) }}</span><small>/
+                                 <h3 class="card-title h5 text-center">{{ $item->nama }}</h3>
+                                 <img src="{{ Storage::url($item->foto_1) }}" alt="foto" style="border-radius: 10px;">
+                                 <p class="mt-2 mb-0"><span class="text-danger h4 font-weight-bold">Rp
+                                         {{ number_format($item->harga_batu) }}</span><small>/
                                          ret</small></p>
-                                 <p><strong>Alamat </strong> : {{ $item->alamat }}</p>
+                                 <span
+                                     class="badge my-1 badge-{{ App\Models\Stok::getStokSeller($item->id) == 0 ? 'danger' : 'success' }}">{{ App\Models\Stok::getStokSeller($item->id) == 0 ? 'Habis' : 'Tersedia' }}
+                                 </span> | <i class="fa fa-star text-warning"></i> <b>5.0</b> ( 2 Ulasan)
+                                 <p class="my-0"><strong>Alamat </strong> : {{ $item->alamat }}</p>
                                  <a href="{{ url('detail', $item->id) }}" class="stretched-link"></a>
                              </div>
                          </div>

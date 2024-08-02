@@ -22,24 +22,29 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>nama</th>
+                            <th>Toko/seller</th>
+                            <th>Pemilik</th>
+                            <th>Harga Batu</th>
+                            <th>Pengantaran</th>
                             <th>Alamat</th>
-                            <th>Action</th>
+
                         </tr>
                     </thead>
 
                     <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>nama</th>
+                            <th>Toko/seller</th>
+                            <th>Pemilik</th>
+                            <th>Harga Batu</th>
+                            <th>Pengantaran</th>
                             <th>Alamat</th>
-                            <th>Action</th>
+
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
     </div>
-    @include('admin.seller.components.modal')
 @endsection
 @include('admin.seller.script')
