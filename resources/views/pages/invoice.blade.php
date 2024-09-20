@@ -9,16 +9,16 @@
                     Toko</a>
                 @if ($pesanan->lunas == 0)
                     @php
-                        $check_pembayaran = App\Models\Pembayaran::where('id_pesanan', $pesanan->id);
+                        $check_pembayaran = App\Models\Pembayaran::where('id_pesanan', $pesanan->id)->get();
                     @endphp
-                    @if (!$check_pembayaran)
+                    @if ($check_pembayaran->count() == 0)
                         <a href="{{ route('bukti_bayar', $pesanan->no_invoice) }}" class="btn btn-primary ">Upload bukti
                             pembayaran</a>
                     @endif
                 @endif
             </div>
             @if ($pesanan->lunas == 0)
-                @if (!$check_pembayaran)
+                @if ($check_pembayaran->count() == 0)
                     <div class="my-3">
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>PANDUAN PEMBAYARAN</strong>
@@ -42,12 +42,14 @@
                         </div>
                     </div>
                 @endif
-                @if ($check_pembayaran->first()->is_verified == 0)
-                    <div class="my-3">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Pembayaran anda menunggu untuk di konfirmasi oleh admin</strong>
+                @if ($check_pembayaran->count() != 0)
+                    @if ($check_pembayaran->first())
+                        <div class="my-3">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Pembayaran anda menunggu untuk di konfirmasi oleh admin</strong>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @endif
             @else
                 <div class="my-3">
