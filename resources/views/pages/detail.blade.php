@@ -175,9 +175,10 @@
                     </div>
                     <div class="mt-3">
                         <div class="shadow rounded p-3 ">
-                            <a href="https://wa.me/{{ $seller->no_hp }}" target="__blank"
+                            {{-- <a href="https://wa.me/{{ $seller->no_hp }}" target="__blank"
                                 class="btn btn-success btn-lg btn-block"><i class="fab fa-whatsapp mx-1"></i>Kirim
-                                Pesan Whatasapp</a>
+                                Pesan Whatasapp</a> --}}
+                            @include('pages._chat')
                         </div>
                     </div>
                 </div>

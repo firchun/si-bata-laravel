@@ -3,6 +3,9 @@
 // use App\Http\Controllers\CustomerController;
 
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\HargaPengantaranController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProfileController;
@@ -11,6 +14,7 @@ use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\UserController;
+use App\Models\HargaPengantaran;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\Seller;
@@ -47,13 +51,17 @@ Route::get('/detail/{id}', function ($id) {
     return view('pages.detail', ['title' => $title, 'seller' => $seller]);
 });
 
-Auth::routes();
+Auth::routes(['reset' => false]);
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+    //chart
+    Route::get('/daily-income', [HomeController::class, 'getDailyIncome']);
     //akun managemen
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    //chat
+    Route::get('/messages/{receiverId}', [ChatController::class, 'fetchMessages']);
+    Route::post('/send-message', [ChatController::class, 'sendMessage']);
 });
 Route::middleware(['auth:web', 'role:User'])->group(function () {
 
@@ -104,10 +112,19 @@ Route::middleware(['auth:web', 'role:Seller'])->group(function () {
     Route::post('/saldo/store-penarikan',  [SaldoController::class, 'store'])->name('saldo.store-penarikan');
     //update bank
     Route::post('/bank/store-seller',  [BankController::class, 'store_seller'])->name('bank.store-seller');
+    //harga pengantaran managemen
+    Route::get('/harga-pengantaran',  [HargaPengantaranController::class, 'index'])->name('harga-pengantaran');
+    Route::post('/harga-pengantaran/store',  [HargaPengantaranController::class, 'store'])->name('harga-pengantaran.store');
+    Route::get('/harga-pengantaran/edit/{id}',  [HargaPengantaranController::class, 'edit'])->name('harga-pengantaran.edit');
+    Route::delete('/harga-pengantaran/delete/{id}',  [HargaPengantaranController::class, 'destroy'])->name('harga-pengantaran.delete');
+    Route::get('/harga-pengantaran-datatable',  [HargaPengantaranController::class, 'getHargaPengantaranDataTable']);
     //stok managemen
     Route::post('/stok/store',  [StokController::class, 'store'])->name('stok.store');
     Route::get('/stok/jumlah/{id_seller}',  [StokController::class, 'stok'])->name('stok.jumlah');
     //seller managemen
+    Route::get('/seller/chat-count/{receiverId}',  [ChatController::class, 'chatCount'])->name('seller.chat-count');
+    Route::get('/seller/all-chat-count',  [ChatController::class, 'chaAllCount'])->name('seller.all-chat-count');
+    Route::get('/seller/chat',  [ChatController::class, 'index'])->name('seller.chat');
     Route::get('/seller/pengantaran',  [SellerController::class, 'pengantaran'])->name('seller.pengantaran');
     Route::get('/seller/update',  [SellerController::class, 'update'])->name('seller.update');
     Route::put('/seller/update-data',  [SellerController::class, 'update_data'])->name('seller.update-data');
@@ -143,6 +160,7 @@ Route::middleware(['auth:web', 'role:Admin'])->group(function () {
     Route::get('/users/seller', [UserController::class, 'seller'])->name('users.seller');
     Route::post('/users/store',  [UserController::class, 'store'])->name('users.store');
     Route::get('/users/edit/{id}',  [UserController::class, 'edit'])->name('users.edit');
+    Route::get('/users/verified/{id}',  [UserController::class, 'verified'])->name('users.verified');
     Route::delete('/users/delete/{id}',  [UserController::class, 'destroy'])->name('users.delete');
     Route::get('/users-datatable/{role}', [UserController::class, 'getUsersDataTable']);
     //bank managemen

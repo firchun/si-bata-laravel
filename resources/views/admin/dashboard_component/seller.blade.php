@@ -111,9 +111,6 @@
         </div>
     </div>
 @else
-    <div class="title pb-20">
-        <h2 class="h3 mb-0">Dashboard Overview</h2>
-    </div>
     <div class="row justify-content-center">
         @include('admin.dashboard_component.card1', [
             'count' => App\Models\Pesanan::getCountPesananSeller($seller->id),

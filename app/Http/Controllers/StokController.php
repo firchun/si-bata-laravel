@@ -20,6 +20,7 @@ class StokController extends Controller
             'jumlah' => $request->input('jumlah'),
             'jenis' => $request->input('jenis'),
         ];
+
         Stok::create($stokData);
 
         return response()->json(['success' => 'Berhasil menambah Stok pada Toko']);

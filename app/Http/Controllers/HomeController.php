@@ -10,6 +10,7 @@ use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -58,5 +59,19 @@ class HomeController extends Controller
         }
 
         return view('admin.dashboard', $data);
+    }
+    public function getDailyIncome()
+    {
+        $query = DB::table('pesanan')
+            ->select(DB::raw('DATE(pesanan.created_at) as date'), DB::raw('SUM(pesanan.total_harga) as total_income'))
+            ->join('seller', 'pesanan.id_seller', '=', 'seller.id') // Menyambungkan tabel seller
+            ->groupBy('date');
+
+        if (Auth::user()->role == 'Seller') {
+            $query->where('seller.id_user', Auth::id()); // Filter berdasarkan id_user di seller
+        }
+
+        $data = $query->get();
+        return response()->json($data);
     }
 }

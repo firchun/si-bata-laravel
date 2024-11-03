@@ -18,6 +18,12 @@ class CekUserLogin
      */
     public function handle(Request $request, Closure $next, ...$role): Response
     {
+        if ($request->user()->role == 'Seller') {
+            if ($request->user()->is_verified == 0) {
+                Auth::logout();
+                return redirect()->route('login')->with('danger', 'Akun Anda belum terverifikasi.');
+            }
+        }
 
         if (($request->user() && in_array($request->user()->role, $role))) {
             return $next($request);

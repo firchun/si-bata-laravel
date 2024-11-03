@@ -13,6 +13,14 @@
                 <div class="login-title">
                     <h2 class="text-center text-danger">Login To {{ env('APP_NAME') }}</h2>
                 </div>
+                @if (Session::has('danger'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ Session::get('danger') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     {{-- <div class="select-role">
@@ -69,11 +77,11 @@
                                 <label class="custom-control-label" for="remember">Remember</label>
                             </div>
                         </div>
-                        <div class="col-6">
+                        {{-- <div class="col-6">
                             <div class="forgot-password">
                                 <a href="{{ route('password.request') }}">Forgot Password</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="row">
                         <div class="col-sm-12">

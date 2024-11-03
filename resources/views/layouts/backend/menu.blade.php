@@ -176,9 +176,21 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('harga-pengantaran') }}"
+                                class="dropdown-toggle no-arrow {{ request()->is('harga-pengantaran') ? 'active' : '' }}">
+                                <span class="micon bi bi-truck"></span><span class="mtext">Harga Pengantaran</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('seller.pengantaran') }}"
                                 class="dropdown-toggle no-arrow {{ request()->is('seller/pengantaran') ? 'active' : '' }}">
                                 <span class="micon bi bi-truck"></span><span class="mtext">Pengantaran</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('seller.chat') }}"
+                                class="dropdown-toggle no-arrow {{ request()->is('seller/chat') ? 'active' : '' }}">
+                                <span class="micon bi bi-telephone"></span><span class="mtext">Chat Pelanggan</span>
                             </a>
                         </li>
                         <li>

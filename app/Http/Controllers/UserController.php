@@ -123,4 +123,11 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully']);
     }
+    public function verified($id)
+    {
+        $user = User::find($id);
+        $user->is_verified = 1;
+        $user->save();
+        return response()->json(['message' => 'Berhasil Verifikasi User']);
+    }
 }

@@ -1,31 +1,23 @@
 @push('js')
     <script>
         $(function() {
-            $('#datatable-users').DataTable({
+            $('#datatable-customers').DataTable({
                 processing: true,
                 serverSide: true,
-                responsive: false,
-                ajax: '{{ url('users-datatable', $role) }}',
+                responsive: true,
+                ajax: '{{ url('harga-pengantaran-datatable') }}',
                 columns: [{
                         data: 'id',
                         name: 'id'
                     },
-                    {
-                        data: 'avatar',
-                        name: 'avatar'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
 
                     {
-                        data: 'role',
-                        name: 'role'
+                        data: 'area',
+                        name: 'area'
+                    },
+                    {
+                        data: 'harga',
+                        name: 'harga'
                     },
                     {
                         data: 'action',
@@ -33,47 +25,34 @@
                     }
                 ]
             });
-            $('.refresh').click(function() {
-                $('#datatable-users').DataTable().ajax.reload();
-            });
             $('.create-new').click(function() {
                 $('#create').modal('show');
             });
-            window.verifiedUser = function(id) {
+            $('.refresh').click(function() {
+                $('#datatable-customers').DataTable().ajax.reload();
+            });
+            window.editCustomer = function(id) {
                 $.ajax({
                     type: 'GET',
-                    url: '/users/verified/' + id,
+                    url: '/harga-pengantaran/edit/' + id,
                     success: function(response) {
-                        alert(response.message);
-                        $('#datatable-users').DataTable().ajax.reload();
+                        $('#customersModalLabel').text('Edit Customer');
+                        $('#formCustomerId').val(response.id);
+                        $('#formArea').val(response.area);
+                        $('#formHarga').val(response.harga);
+                        $('#customersModal').modal('show');
                     },
                     error: function(xhr) {
                         alert('Terjadi kesalahan: ' + xhr.responseText);
                     }
                 });
             };
-            window.editUser = function(id) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/users/edit/' + id,
-                    success: function(response) {
-                        $('#UsersModalLabel').text('Edit User');
-                        $('#formUserId').val(response.id);
-                        $('#formUserName').val(response.name);
-                        $('#formUserEmail').val(response.email);
-                        $('#UsersModal').modal('show');
-                    },
-                    error: function(xhr) {
-                        alert('Terjadi kesalahan: ' + xhr.responseText);
-                    }
-                });
-            };
-            $('#saveUserBtn').click(function() {
+            $('#saveCustomerBtn').click(function() {
                 var formData = $('#userForm').serialize();
 
                 $.ajax({
                     type: 'POST',
-                    url: '/users/store',
+                    url: '/harga-pengantaran/store',
                     data: formData,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -81,29 +60,29 @@
                     success: function(response) {
                         alert(response.message);
                         // Refresh DataTable setelah menyimpan perubahan
-                        $('#datatable-users').DataTable().ajax.reload();
-                        $('#usersModal').modal('hide');
+                        $('#datatable-customers').DataTable().ajax.reload();
+                        $('#customersModal').modal('hide');
                     },
                     error: function(xhr) {
                         alert('Terjadi kesalahan: ' + xhr.responseText);
                     }
                 });
             });
-            $('#createUserBtn').click(function() {
+            $('#createCustomerBtn').click(function() {
                 var formData = $('#createUserForm').serialize();
 
                 $.ajax({
                     type: 'POST',
-                    url: '/users/store',
+                    url: '/harga-pengantaran/store',
                     data: formData,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(response) {
                         alert(response.message);
-                        $('#userssModalLabel').text('Edit User');
-                        $('#formUserName').val('');
-                        $('#datatable-users').DataTable().ajax.reload();
+                        $('#formCreateArea').val('');
+                        $('#formCreateHarga').val('');
+                        $('#datatable-customers').DataTable().ajax.reload();
                         $('#create').modal('hide');
                     },
                     error: function(xhr) {
@@ -111,19 +90,17 @@
                     }
                 });
             });
-
-            window.deleteUser = function(id) {
-                if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+            window.deleteCustomers = function(id) {
+                if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
                     $.ajax({
                         type: 'DELETE',
-                        url: '/users/delete/' + id,
+                        url: '/harga-pengantaran/delete/' + id,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            alert(response.message);
-                            // Refresh DataTable setelah menghapus pengguna
-                            $('#datatable-users').DataTable().ajax.reload();
+                            // alert(response.message);
+                            $('#datatable-customers').DataTable().ajax.reload();
                         },
                         error: function(xhr) {
                             alert('Terjadi kesalahan: ' + xhr.responseText);
