@@ -119,15 +119,13 @@
             selectedCustomerId = $(this).data('customer-id');
             loadMessages(selectedCustomerId);
 
-            // Start polling for new messages
             startMessagePolling(selectedCustomerId);
         });
 
-        // Function to load messages for the selected customer
         function loadMessages(customerId) {
             $.get(`/messages/${customerId}`, function(data) {
-                let messagesContainer = $('#messages'); // Get the messages container
-                messagesContainer.html(''); // Clear previous messages
+                let messagesContainer = $('#messages');
+                messagesContainer.html('');
 
                 // Loop through the fetched messages
                 data.forEach(function(message) {
@@ -136,33 +134,29 @@
                         `<span class="customer">${message.sender.name}</span>`; // Display customer name
 
                     const messageClass = Number(message.sender_id) === {{ Auth::id() }} ? 'text-start' :
-                        'text-end'; // Determine message alignment
+                        'text-end';
 
-                    // Construct the message HTML
                     const messageHtml = `
                 <div class="${messageClass}">
                     <strong>${senderName}<br></strong>
                     <div class="message-content">${message.message}</div>
                 </div>`;
 
-                    // Append the message HTML to the messages container
                     messagesContainer.append(messageHtml);
                 });
 
-                // Scroll to the bottom of the messages
                 messagesContainer.scrollTop(messagesContainer[0].scrollHeight);
             }).fail(function() {
-                console.error('Failed to load messages.'); // Log error if it fails
+                console.error('Failed to load messages.');
             });
         }
 
-        // Function to start polling for new messages
         function startMessagePolling(customerId) {
             clearInterval(messagePollingInterval);
 
             messagePollingInterval = setInterval(function() {
                 loadMessages(customerId);
-            }, 1000); // Poll every 3 seconds
+            }, 1000);
         }
 
 

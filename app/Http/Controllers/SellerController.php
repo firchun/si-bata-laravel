@@ -65,7 +65,11 @@ class SellerController extends Controller
             ->addColumn('saldo', function ($seller) {
                 return 'Rp ' . number_format(Saldo::getSaldoSeller($seller->id));
             })
-            ->rawColumns(['action', 'saldo'])
+            ->addColumn('laporan', function ($seller) {
+                $url = url('report/seller_report') . '?id_user=' . $seller->id_user;
+                return '<a href="' . $url . '" class="btn btn-primary">Laporan</a>';
+            })
+            ->rawColumns(['action', 'saldo', 'laporan'])
             ->make(true);
     }
     public function store(Request $request)

@@ -148,12 +148,12 @@
                         name: 'jumlah'
                     },
                     {
-                        data: 'harga',
-                        name: 'harga'
+                        data: 'harga_text',
+                        name: 'harga_text'
                     },
                     {
-                        data: 'pengantaran',
-                        name: 'pengantaran'
+                        data: 'pengantaran_text',
+                        name: 'pengantaran_text'
                     },
                     {
                         data: 'action',

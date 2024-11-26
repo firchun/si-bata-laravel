@@ -17,6 +17,24 @@
     @if (Auth::user()->role == 'Admin')
         <div class="row justify-content-center">
             <div class="col-12 text-center mb-4">
+                <h4>Data Toko</h4>
+            </div>
+            @foreach (App\Models\Seller::all() as $item)
+                @include('admin.dashboard_component.card_toko', [
+                    'harga_batu' => $item->harga_batu,
+                    'harga_pengantaran' => $item->harga_pengantaran,
+                    'title' => $item->nama,
+                    'pesanan' => App\Models\Pesanan::getCountPesananSeller($item->id),
+                    'saldo' => App\Models\Saldo::getSaldoSeller($item->id),
+                    'color' => 'success',
+                    'icon' => 'shop',
+                ])
+            @endforeach
+
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <div class="col-12 text-center mb-4">
                 <h4>Data Keungan</h4>
             </div>
             @include('admin.dashboard_component.card2', [
@@ -48,9 +66,9 @@
                 'icon' => 'money',
             ])
         </div>
+
         <hr>
         <div class="row justify-content-center">
-
             @include('admin.dashboard_component.card1', [
                 'count' => $penjual,
                 'title' => 'Penjual',

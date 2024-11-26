@@ -151,6 +151,12 @@
                                 pelanggan</span>
                         </a>
                     </li>
+                    {{-- <li>
+                        <a href="{{ route('report.seller_report') }}"
+                            class="dropdown-toggle no-arrow {{ request()->is('report/seller_report') ? 'active' : '' }}">
+                            <span class="micon bi bi-files"></span><span class="mtext">Laporan Penjualan</span>
+                        </a>
+                    </li> --}}
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
                             <span class="micon bi bi-people"></span><span class="mtext">Pengguna</span>

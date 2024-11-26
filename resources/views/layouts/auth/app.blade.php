@@ -51,11 +51,13 @@
             </div>
             <div class="login-menu">
                 <ul>
-                    @if ($title == 'login')
-                        <li><a href="{{ route('register') }}" class="text-danger">Register</a></li>
-                    @elseif($title == 'register')
-                        <li><a href="{{ route('login') }}" class="text-danger">Login</a></li>
-                    @endif
+                    @isset($title)
+                        @if ($title == 'login')
+                            <li><a href="{{ route('register') }}" class="text-danger">Register</a></li>
+                        @elseif($title == 'register')
+                            <li><a href="{{ route('login') }}" class="text-danger">Login</a></li>
+                        @endif
+                    @endisset
                 </ul>
             </div>
         </div>

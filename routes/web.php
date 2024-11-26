@@ -50,9 +50,8 @@ Route::get('/detail/{id}', function ($id) {
     $title = 'Penjual : ' . $seller->nama;
     return view('pages.detail', ['title' => $title, 'seller' => $seller]);
 });
-
-Auth::routes(['reset' => false]);
-Route::middleware(['auth:web'])->group(function () {
+Auth::routes(['verify' => true]);
+Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     //chart
     Route::get('/daily-income', [HomeController::class, 'getDailyIncome']);
@@ -107,6 +106,11 @@ Route::middleware(['auth:web', 'role:User'])->group(function () {
         return view('pages.akun', ['title' => $title]);
     })->name('akun');
 });
+Route::middleware(['auth:web', 'role:Seller,Admin'])->group(function () {
+    Route::get('/report/seller_report', [ReportController::class, 'seller_report'])->name('report.seller_report');
+    Route::get('/report/print_seller/{id_seller}', [ReportController::class, 'print_seller'])->name('report.print_seller');
+    Route::get('/pesanan-datatable/{id_seller}', [PesananController::class, 'getPesananDataTable']);
+});
 Route::middleware(['auth:web', 'role:Seller'])->group(function () {
     //penarikan saldo
     Route::post('/saldo/store-penarikan',  [SaldoController::class, 'store'])->name('saldo.store-penarikan');
@@ -132,9 +136,8 @@ Route::middleware(['auth:web', 'role:Seller'])->group(function () {
     Route::get('/seller/seller', [SellerController::class, 'seller'])->name('seller.seller');
     Route::get('/seller/terima/{id}', [SellerController::class, 'terima'])->name('seller.terima');
     Route::get('/seller/lunas/{id}', [SellerController::class, 'lunas'])->name('seller.lunas');
-    Route::get('/report/seller_report', [ReportController::class, 'seller_report'])->name('report.seller_report');
+
     //pesanan 
-    Route::get('/pesanan-datatable/{id_seller}', [PesananController::class, 'getPesananDataTable']);
     Route::get('/pengantaran-datatable/{id_seller}', [PesananController::class, 'getPengantaranDataTable']);
 });
 Route::middleware(['auth:web', 'role:Admin'])->group(function () {

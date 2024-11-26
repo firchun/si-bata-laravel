@@ -9,6 +9,7 @@ use App\Models\Stok;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class PesananController extends Controller
 {
@@ -46,11 +47,25 @@ class PesananController extends Controller
             ->rawColumns(['action', 'pemesan', 'wa', 'jumlah', 'harga', 'pengantaran'])
             ->make(true);
     }
-    public function getPesananDataTable($id_seller)
+    public function getPesananDataTable(Request $request, $id_seller)
     {
-        $Pesanan = Pesanan::where('id_seller', $id_seller)->orderByDesc('id');
+        $Pesanan = Pesanan::with(['user'])->where('id_seller', $id_seller)->orderByDesc('id');
+        if ($request->input('is_verified') != '' && $request->has('is_verified')) {
+            $Pesanan = $Pesanan->where('is_verified', $request->input('is_verified'));
+        }
+        if ($request->has('from_date') && $request->from_date) {
+            $startDate = Carbon::parse($request->from_date)->startOfDay();
+            $Pesanan->where('created_at', '>=', $startDate);
+        }
 
+        if ($request->has('to_date') && $request->to_date) {
+            $endDate = Carbon::parse($request->to_date)->endOfDay();
+            $Pesanan->where('created_at', '<=', $endDate);
+        }
         return DataTables::of($Pesanan)
+            ->addColumn('tanggal', function ($Pesanan) {
+                return $Pesanan->created_at->format('d F Y');
+            })
             ->addColumn('wa', function ($Pesanan) {
                 return '<a href="" class="btn btn-sm btn-outline-success" target"__blank"><i class="fa fa-whatsapp"></i></a>';
             })
@@ -63,12 +78,12 @@ class PesananController extends Controller
                 $jumlah = '<strong>' . $Pesanan->jumlah . '</strong> <small>Ret</small>';
                 return $jumlah;
             })
-            ->addColumn('harga', function ($Pesanan) {
+            ->addColumn('harga_text', function ($Pesanan) {
                 $total = '<strong class="text-danger">Rp ' . number_format($Pesanan->total_harga) . '</strong>';
                 $satuan = '<br><small> Rp ' . number_format($Pesanan->harga) . ' / Ret</small>';
                 return $total . $satuan;
             })
-            ->addColumn('pengantaran', function ($Pesanan) {
+            ->addColumn('pengantaran_text', function ($Pesanan) {
                 $nomor = '<br><strong >No. Penerima : </strong>' . $Pesanan->nomor_penerima;
                 $alamat = '<br><strong >Alamat   : </strong>' . $Pesanan->alamat_pengantaran;
                 $span = '<span class="badge badge-' . ($Pesanan->pengantaran == 1 ? 'primary' : 'success') . '">' . ($Pesanan->pengantaran == 1 ? 'Diantar' : 'Ambil Ditempat') . '</span>';
@@ -77,7 +92,7 @@ class PesananController extends Controller
             ->addColumn('action', function ($Pesanan) {
                 return view('admin.seller.components.actions_pesanan', compact('Pesanan'));
             })
-            ->rawColumns(['action', 'pemesan', 'wa', 'jumlah', 'harga', 'pengantaran'])
+            ->rawColumns(['action', 'pemesan', 'wa', 'jumlah', 'harga_text', 'pengantaran_text', 'tanggal'])
             ->make(true);
     }
     public function store(Request $request)

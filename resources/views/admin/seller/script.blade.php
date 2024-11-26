@@ -39,6 +39,10 @@
                         data: 'alamat',
                         name: 'alamat'
                     },
+                    {
+                        data: 'laporan',
+                        name: 'laporan'
+                    },
 
                 ]
             });

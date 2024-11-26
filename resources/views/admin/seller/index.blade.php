@@ -27,6 +27,7 @@
                             <th>Harga Batu</th>
                             <th>Pengantaran</th>
                             <th>Alamat</th>
+                            <th>Laporan</th>
 
                         </tr>
                     </thead>
@@ -39,7 +40,7 @@
                             <th>Harga Batu</th>
                             <th>Pengantaran</th>
                             <th>Alamat</th>
-
+                            <th>Laporan</th>
                         </tr>
                     </tfoot>
                 </table>
