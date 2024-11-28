@@ -97,6 +97,21 @@
                         <strong>Alamat Penjual :</strong>
                         <p class="text-mutted px-2">{{ $seller->alamat }}</p>
                     </div>
+                    <div class="p-3 shadow rounded mt-3">
+                        <h5>Rating dan ulasan pelanggan</h5>
+                        <hr>
+                        @foreach (App\Models\Rating::where('id_seller', $seller->id)->get() as $ratingItem)
+                            <div class="mb-3 border py-2 px-3" style="border-radius: 20px;">
+                                <i class="fa fa-user text-danger"></i> {{ $ratingItem->user->name }} |
+                                @php
+                                    for ($i = 1; $i <= $ratingItem->rating; $i++) {
+                                        echo ' <i class="fa fa-star text-warning"></i>';
+                                    }
+                                @endphp
+                                <p><b>Ulasan : </b> " {{ $ratingItem->ulasan }} "</p>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="shadow rounded p-3">
@@ -171,14 +186,18 @@
                                     <a href="{{ route('register') }}" class="btn btn-primary mx-1">Register</a>
                                 </div>
                         @endif
-
                     </div>
                     <div class="mt-3">
                         <div class="shadow rounded p-3 ">
                             {{-- <a href="https://wa.me/{{ $seller->no_hp }}" target="__blank"
                                 class="btn btn-success btn-lg btn-block"><i class="fab fa-whatsapp mx-1"></i>Kirim
                                 Pesan Whatasapp</a> --}}
-                            @include('pages._chat')
+                            @guest
+                                <small class="text-danger"><i>Login untuk mengaktifkan fitur live chat ke
+                                        penjual</i></small>
+                            @else
+                                @include('pages._chat')
+                            @endguest
                         </div>
                     </div>
                 </div>
@@ -186,6 +205,7 @@
 
         </div>
     </section>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pengantaranSelect = document.getElementById('pengantaranSelect');

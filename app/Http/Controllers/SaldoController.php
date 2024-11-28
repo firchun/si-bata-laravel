@@ -29,10 +29,12 @@ class SaldoController extends Controller
 
         return DataTables::of($penarikan)
             ->addColumn('action', function ($penarikan) {
-                if ($penarikan->is_verified == 0) {
-                    return '<button type="button" class="btn btn-primary">Konfirmasi</button>';
+                if ($penarikan->is_verified == 0 && $penarikan->is_send == 0) {
+                    return '<button type="button" class="btn btn-primary" data-id="' . $penarikan->id . '" id="konfirmasiBtn">Konfirmasi</button>';
+                } elseif ($penarikan->is_verified == 1 && $penarikan->is_send == 0) {
+                    return '<button type="button" class="btn btn-success" data-id="' . $penarikan->id . '" id="berhasilBtn">Update Berhasil</button>';
                 } else {
-                    return '<button type="button" class="btn btn-primary">Update Berhasil</button>';
+                    return 'Penarikan berhasil';
                 }
             })
             ->rawColumns(['action'])
@@ -75,5 +77,33 @@ class SaldoController extends Controller
         }
 
         return response()->json(['message' => $message]);
+    }
+    public function konfirmasi(Request $request)
+    {
+        $id = $request->id;
+
+        try {
+            $penarikan = PenarikanSaldo::findOrFail($id);
+            $penarikan->is_verified = 1;
+            $penarikan->save();
+
+            return response()->json(['success' => true, 'message' => 'Penarikan berhasil dikonfirmasi.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
+    }
+    public function updateBerhasil(Request $request)
+    {
+        $id = $request->id;
+
+        try {
+            $penarikan = PenarikanSaldo::findOrFail($id);
+            $penarikan->is_send = 1;
+            $penarikan->save();
+
+            return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
+        }
     }
 }

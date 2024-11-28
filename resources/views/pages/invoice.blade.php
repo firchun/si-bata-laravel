@@ -1,12 +1,36 @@
 @extends('layouts.frontend.app')
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menambahkan efek hover pada bintang */
+        .star {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .star:hover,
+        .star:hover~.star {
+            color: gold !important;
+        }
+
+        .star.active {
+            color: gold !important;
+        }
+    </style>
+@endpush
 @section('content')
     <section class="section">
         <div class="container">
             <div class="my-3 d-flex">
                 <a href="{{ route('pesanan_user') }}" class="btn btn-secondary mx-2">
                     Semua Pesanan</a>
-                <a href="https://wa.me/{{ $pesanan->seller->no_hp }}" target="__blank" class="btn btn-success mx-2">Hubungi
-                    Toko</a>
+                {{-- <a href="https://wa.me/{{ $pesanan->seller->no_hp }}" target="__blank" class="btn btn-success mx-2">Hubungi
+                    Toko</a> --}}
+                {{-- @if ($rating <= 0)
+                    <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#ratingModal">
+                        <i class="fa fa-star"></i> Rating dan Ulasan
+                    </a>
+                @endif --}}
                 @if ($pesanan->lunas == 0)
                     @php
                         $check_pembayaran = App\Models\Pembayaran::where('id_pesanan', $pesanan->id)->get();
@@ -14,6 +38,12 @@
                     @if ($check_pembayaran->count() == 0)
                         <a href="{{ route('bukti_bayar', $pesanan->no_invoice) }}" class="btn btn-primary ">Upload bukti
                             pembayaran</a>
+                    @endif
+                @else
+                    @if ($rating <= 0)
+                        <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#ratingModal">
+                            <i class="fa fa-star"></i> Rating dan Ulasan
+                        </a>
                     @endif
                 @endif
             </div>
@@ -55,6 +85,16 @@
                 <div class="my-3">
                     <div class="alert alert-primary alert-dismissible fade show" role="alert">
                         <strong>Pesanan anda telah lunas, terimakasih telah memesan..</strong>
+                    </div>
+                </div>
+            @endif
+            @if ($rating > 0)
+                <div class="my-3">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>terimakasih telah memberikan rating :
+                        </strong><br>
+                        <b>{{ $isi_rating->rating }}</b> <i class="fa fa-star"></i>
+                        <p>Ulasan : " {{ $isi_rating->ulasan }} "</p>
                     </div>
                 </div>
             @endif
@@ -179,4 +219,89 @@
             </div>
         </div>
     </section>
+    {{-- modal rating --}}
+    <!-- Modal -->
+    <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ratingModalLabel">Berikan Rating dan Ulasan</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">x</button>
+                </div>
+                <div class="modal-body">
+                    <form id="ratingForm" action="{{ route('rating.store') }}" enctype="multipart/form-data"
+                        method="POST">
+                        @csrf
+                        <input type="hidden" name="id_user" value="{{ Auth::id() }}">
+                        <input type="hidden" name="id_seller" value="{{ $pesanan->id_seller }}">
+                        <input type="hidden" name="id_pesanan" value="{{ $pesanan->id }}">
+                        <!-- Rating -->
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Rating:</label>
+                            <div id="rating" class="d-flex">
+                                <i class="fa fa-star text-secondary star" data-value="1"></i>
+                                <i class="fa fa-star text-secondary star" data-value="2"></i>
+                                <i class="fa fa-star text-secondary star" data-value="3"></i>
+                                <i class="fa fa-star text-secondary star" data-value="4"></i>
+                                <i class="fa fa-star text-secondary star" data-value="5"></i>
+                            </div>
+                            <input type="hidden" name="rating" id="ratingInput" value="0">
+                        </div>
+                        <!-- Ulasan -->
+                        <div class="mb-3">
+                            <label for="review" class="form-label">Ulasan:</label>
+                            <textarea class="form-control" id="review" name="ulasan" rows="4"
+                                placeholder="Tuliskan ulasan Anda di sini..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">Kirim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('js')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const stars = document.querySelectorAll(".star");
+            const ratingInput = document.getElementById("ratingInput");
+
+            stars.forEach((star, index) => {
+                star.addEventListener("click", function() {
+                    const value = parseInt(this.getAttribute("data-value"));
+                    ratingInput.value = value;
+
+                    // Aktifkan semua bintang hingga indeks yang dipilih
+                    stars.forEach((s, i) => {
+                        if (i < value) {
+                            s.classList.add("active");
+                        } else {
+                            s.classList.remove("active");
+                        }
+                    });
+                });
+            });
+
+            // Event untuk submit form
+            const form = document.getElementById("ratingForm");
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const rating = ratingInput.value;
+                const review = document.getElementById("review").value;
+
+                if (rating === "0") {
+                    alert("Harap memberikan rating sebelum mengirim.");
+                    return;
+                }
+
+                // Proses pengiriman data (AJAX atau ke backend)
+                alert(`Rating: ${rating}\nUlasan: ${review}`);
+                form.submit();
+
+                // Reset bintang setelah submit
+                stars.forEach((s) => s.classList.remove("active"));
+                document.getElementById("ratingModal").querySelector(".btn-close").click();
+            });
+        });
+    </script>
+@endpush

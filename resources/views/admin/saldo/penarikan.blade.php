@@ -76,4 +76,53 @@
 
         });
     </script>
+    <script>
+        $(document).on('click', '#konfirmasiBtn', function() {
+            var id = $(this).data('id'); // Ambil ID dari tombol
+
+            $.ajax({
+                url: '{{ url('penarikan/konfirmasi') }}', // Endpoint untuk konfirmasi
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Tambahkan CSRF token untuk keamanan
+                    id: id
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Konfirmasi berhasil!');
+                        $('#datatable-penarikan').DataTable().ajax.reload(); // Reload tabel
+                    } else {
+                        alert('Konfirmasi gagal: ' + response.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Terjadi kesalahan saat mengonfirmasi.');
+                }
+            });
+        });
+
+        $(document).on('click', '#berhasilBtn', function() {
+            var id = $(this).data('id'); // Ambil ID dari tombol
+
+            $.ajax({
+                url: '{{ url('penarikan/update-berhasil') }}', // Endpoint untuk update berhasil
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Tambahkan CSRF token untuk keamanan
+                    id: id
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Status berhasil diperbarui!');
+                        $('#datatable-penarikan').DataTable().ajax.reload(); // Reload tabel
+                    } else {
+                        alert('Pembaruan gagal: ' + response.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Terjadi kesalahan saat memperbarui status.');
+                }
+            });
+        });
+    </script>
 @endpush

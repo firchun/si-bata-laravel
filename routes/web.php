@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\SellerController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\UserController;
 use App\Models\HargaPengantaran;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
+use App\Models\Rating;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -63,7 +65,8 @@ Route::middleware(['auth:web', 'verified'])->group(function () {
     Route::post('/send-message', [ChatController::class, 'sendMessage']);
 });
 Route::middleware(['auth:web', 'role:User'])->group(function () {
-
+    //rating
+    Route::post('/rating/store', [RatingController::class, 'store'])->name('rating.store');
     //keranjang
     Route::delete('/keranjang/delete/{id}',  [PesananController::class, 'destroy_keranjang'])->name('keranjang.delete');
     Route::get('/keranjang/checkout/{id}',  [PesananController::class, 'checkoutKeranjang'])->name('keranjang.checkout');
@@ -91,7 +94,9 @@ Route::middleware(['auth:web', 'role:User'])->group(function () {
     Route::get('/invoice/{no_invoice}', function ($no_invoice) {
         $title = 'Invoice : ' . $no_invoice;
         $pesanan = Pesanan::with(['user'])->where('no_invoice', $no_invoice)->latest()->first();
-        return view('pages.invoice', ['title' => $title, 'pesanan' => $pesanan]);
+        $rating = Rating::where('id_seller', $pesanan->id_seller)->where('id_pesanan', $pesanan->id)->count();
+        $isi_rating = Rating::where('id_seller', $pesanan->id_seller)->where('id_pesanan', $pesanan->id)->first();
+        return view('pages.invoice', ['title' => $title, 'pesanan' => $pesanan, 'rating' => $rating, 'isi_rating' => $isi_rating]);
     })->name('invoice');
     //pembayaran
     Route::post('/pembayaran/store', [PembayaranController::class, 'store'])->name('pembayaran.store');
@@ -110,6 +115,9 @@ Route::middleware(['auth:web', 'role:Seller,Admin'])->group(function () {
     Route::get('/report/seller_report', [ReportController::class, 'seller_report'])->name('report.seller_report');
     Route::get('/report/print_seller/{id_seller}', [ReportController::class, 'print_seller'])->name('report.print_seller');
     Route::get('/pesanan-datatable/{id_seller}', [PesananController::class, 'getPesananDataTable']);
+    //penarikan
+    Route::post('/penarikan/konfirmasi', [SaldoController::class, 'konfirmasi'])->name('penarikan.konfirmasi');
+    Route::post('/penarikan/update-berhasil', [SaldoController::class, 'updateBerhasil'])->name('penarikan.updateBerhasil');
 });
 Route::middleware(['auth:web', 'role:Seller'])->group(function () {
     //penarikan saldo
