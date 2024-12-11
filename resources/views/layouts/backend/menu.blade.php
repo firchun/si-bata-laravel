@@ -194,6 +194,13 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('pembayaran') }}"
+                                class="dropdown-toggle no-arrow {{ request()->is('pembayaran') ? 'active' : '' }}">
+                                <span class="micon bi bi-person-check"></span><span class="mtext">Pembayaran
+                                    pelanggan</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('seller.chat') }}"
                                 class="dropdown-toggle no-arrow {{ request()->is('seller/chat') ? 'active' : '' }}">
                                 <span class="micon bi bi-telephone"></span><span class="mtext">Chat Pelanggan</span>

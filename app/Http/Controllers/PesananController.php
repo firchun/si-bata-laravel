@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HargaPengantaran;
 use App\Models\Keranjang;
 use App\Models\Pesanan;
 use App\Models\Seller;
@@ -113,21 +114,29 @@ class PesananController extends Controller
             session()->flash('danger', 'Stok tidak mencukupi');
             return redirect()->back();
         }
+        $hargaPengantaranRupiah = 0;
+        if ($request->input('id_harga_pengantaran') != '-') {
+            $hargaPengantaran = HargaPengantaran::find($request->input('id_harga_pengantaran'));
+            $hargaPengantaranRupiah = $hargaPengantaran->harga;
+        }
         if ($request->input('pengantaran') == 1) {
-            $harga_total = ($seller->harga_batu * $request->input('jumlah')) + $seller->harga_pengantaran;
+            $harga_total = ($seller->harga_batu * $request->input('jumlah')) + $hargaPengantaranRupiah + 2000;
         } else {
-            $harga_total = $seller->harga_batu * $request->input('jumlah');
+            $harga_total = $seller->harga_batu * $request->input('jumlah') + 2000;
         }
         $pesananData = [
             'id_seller' => $request->input('id_seller'),
+            'id_harga_pengantaran' => $request->input('id_harga_pengantaran'),
             'jenis' => $request->input('jenis'),
             'jumlah' => $request->input('jumlah'),
             'pengantaran' => $request->input('pengantaran'),
             'keterangan' => $request->input('keterangan'),
             'nomor_penerima' => $request->input('nomor_penerima'),
             'alamat_pengantaran' => $request->input('alamat_pengantaran'),
+            'permintaan_pesanan' => $request->input('permintaan_pesanan') ?? null,
             'id_user' => Auth::id(),
             'harga' => $seller->harga_batu,
+            'harga_pengantaran' => $hargaPengantaranRupiah,
             'total_harga' => $harga_total,
         ];
         $pesananData['no_invoice'] = 'INV-' . date('dmYHis');
@@ -252,6 +261,15 @@ class PesananController extends Controller
         }
 
         // Redirect kembali ke halaman sebelumnya
+        return redirect()->back();
+    }
+    public function selesai($id)
+    {
+        $pembayaran = Pesanan::find($id);
+        $pembayaran->selesai = 1;
+        $pembayaran->save();
+
+        session()->flash('success', 'Pesanan selesai');
         return redirect()->back();
     }
 }

@@ -19,6 +19,10 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Seller::class, 'id_seller');
     }
+    public function hargaPengantaran(): BelongsTo
+    {
+        return $this->belongsTo(HargaPengantaran::class, 'id_harga_pengantaran');
+    }
     static function getCountPesananUser($id_user)
     {
         $jumlah = Self::where('id_user', $id_user)->count();

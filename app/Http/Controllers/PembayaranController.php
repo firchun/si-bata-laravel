@@ -6,6 +6,7 @@ use App\Models\Pembayaran;
 use App\Models\Pesanan;
 use App\Models\Saldo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -21,6 +22,11 @@ class PembayaranController extends Controller
     public function getPembayaranDataTable()
     {
         $pembayaran = Pembayaran::with(['pesanan', 'user', 'bank_admin'])->orderByDesc('id');
+        if (Auth::user()->role == 'Seller') {
+            $pembayaran->whereHas('pesanan', function ($query) {
+                $query->where('id_seller', Auth::id());
+            });
+        }
 
         return DataTables::of($pembayaran)
             ->addColumn('action', function ($pembayaran) {

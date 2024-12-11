@@ -73,6 +73,7 @@ Route::middleware(['auth:web', 'role:User'])->group(function () {
     //pemesanan
     Route::post('/pesanan/store',  [PesananController::class, 'store'])->name('pesanan.store');
     Route::get('/pesanan/cancel/{id}',  [PesananController::class, 'batal'])->name('pesanan.cancel');
+    Route::get('/pesanan/selesai/{id}',  [PesananController::class, 'selesai'])->name('pesanan.selesai');
     //keranjang user
     Route::get('/keranjang', function () {
         $title = 'Keranjang Saya';
@@ -115,6 +116,11 @@ Route::middleware(['auth:web', 'role:Seller,Admin'])->group(function () {
     Route::get('/report/seller_report', [ReportController::class, 'seller_report'])->name('report.seller_report');
     Route::get('/report/print_seller/{id_seller}', [ReportController::class, 'print_seller'])->name('report.print_seller');
     Route::get('/pesanan-datatable/{id_seller}', [PesananController::class, 'getPesananDataTable']);
+    //pembayaran managemen
+    Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
+    Route::get('/pembayaran/terima/{id}', [PembayaranController::class, 'terima'])->name('pembayaran.terima');
+    Route::get('/pembayaran/tolak/{id}', [PembayaranController::class, 'tolak'])->name('pembayaran.tolak');
+    Route::get('/pembayaran-datatable', [PembayaranController::class, 'getPembayaranDatatable']);
     //penarikan
     Route::post('/penarikan/konfirmasi', [SaldoController::class, 'konfirmasi'])->name('penarikan.konfirmasi');
     Route::post('/penarikan/update-berhasil', [SaldoController::class, 'updateBerhasil'])->name('penarikan.updateBerhasil');
@@ -150,11 +156,11 @@ Route::middleware(['auth:web', 'role:Seller'])->group(function () {
 });
 Route::middleware(['auth:web', 'role:Admin'])->group(function () {
 
-    //pembayaran managemen
-    Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
-    Route::get('/pembayaran/terima/{id}', [PembayaranController::class, 'terima'])->name('pembayaran.terima');
-    Route::get('/pembayaran/tolak/{id}', [PembayaranController::class, 'tolak'])->name('pembayaran.tolak');
-    Route::get('/pembayaran-datatable', [PembayaranController::class, 'getPembayaranDatatable']);
+    // //pembayaran managemen
+    // Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
+    // Route::get('/pembayaran/terima/{id}', [PembayaranController::class, 'terima'])->name('pembayaran.terima');
+    // Route::get('/pembayaran/tolak/{id}', [PembayaranController::class, 'tolak'])->name('pembayaran.tolak');
+    // Route::get('/pembayaran-datatable', [PembayaranController::class, 'getPembayaranDatatable']);
     //saldo managemen
     Route::get('/saldo', [SaldoController::class, 'index'])->name('saldo');
     Route::get('/saldo/penarikan', [SaldoController::class, 'penarikan'])->name('saldo.penarikan');

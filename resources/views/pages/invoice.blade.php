@@ -114,6 +114,16 @@
                     </div>
                 @endif
             @endif
+            @if ($pesanan->selesai == 0)
+                <div class="my-3">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Klik tombol selesai jika pesanan telah selesai dan diterima</strong><br>
+                        <form action="{{ route('pesanan.selesai', $pesanan->id) }}" method="GET">
+                            <button type="submit" class="btn btn-success btn-sm">Selesai</button>
+                        </form>
+                    </div>
+                </div>
+            @endif
             <div class="p-3 shadow rounded">
                 <div class="row justify-content-between px-3">
                     <h4 class="py-2">{{ $title }}</h4>
@@ -148,6 +158,12 @@
                                 class="text-danger">{{ $pesanan->pengantaran == 1 ? 'Diantar' : 'Ambil ditempat' }}</strong>
                         </td>
                     </tr>
+                    <tr>
+                        <td><strong>Status Pesanan</strong></td>
+                        <td>:</td>
+                        <td><strong class="text-danger">{{ $pesanan->selesai == 1 ? 'Selesai' : 'Belum Selesai' }}</strong>
+                        </td>
+                    </tr>
                     @if ($pesanan->pengantaran == 1)
                         <tr>
                             <td><strong>Nomor Penerima</strong></td>
@@ -162,6 +178,7 @@
                             </td>
                         </tr>
                     @endif
+
                 </table>
             </div>
             @if ($pesanan->pengantaran == 1)
@@ -171,6 +188,13 @@
                     </div>
 
                     <table class="table table-hover">
+                        <tr>
+                            <td><strong>Area pengantaran</strong></td>
+                            <td>:</td>
+                            <td>{{ $pesanan->hargaPengantaran->area }} <small class="text-danger">(Rp
+                                    {{ number_format($pesanan->hargaPengantaran->harga) }})</small>
+                            </td>
+                        </tr>
                         <tr>
                             <td><strong>Nomor Penerima</strong></td>
                             <td>:</td>
@@ -204,10 +228,16 @@
                             <td><strong>Harga Pengantaran</strong></td>
                             <td>:</td>
                             <td><strong class="text-danger">Rp
-                                    {{ number_format($pesanan->seller->harga_pengantaran) }}</strong>
+                                    {{ number_format($pesanan->harga_pengantaran) }}</strong>
                             </td>
                         </tr>
                     @endif
+                    <tr>
+                        <td><strong>Biaya Admin</strong></td>
+                        <td>:</td>
+                        <td><strong class="text-danger">Rp 2.000</strong>
+                        </td>
+                    </tr>
                     <tr class="table-danger">
                         <td><strong>Total</strong></td>
                         <td>:</td>

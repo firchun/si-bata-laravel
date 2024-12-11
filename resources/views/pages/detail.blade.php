@@ -134,13 +134,13 @@
                                             <div class="mb-3">
                                                 <label class="text-danger">Jumlah</label>
                                                 <input type="number" name="jumlah" class="form-control border-danger"
-                                                    value="1">
+                                                    value="1" min="1">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="text-danger">Jenis</label>
-                                                <select class="form-control border-danger" name="jenis">
+                                                <select class="form-control border-danger" name="jenis" id="jenisSelect">
                                                     <option value="order">Order</option>
                                                     <option value="pre-order">Pre-Order</option>
                                                 </select>
@@ -153,6 +153,23 @@
                                             id="pengantaranSelect">
                                             <option value="0">Ambil ditempat</option>
                                             <option value="1">Diantar</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3" id="tanggalPesananDiv">
+                                        <label class="text-danger">Tanggal Pesanan diinginkan</label>
+                                        <input type="date" name="permintaan_pesanan" id="permintaan_pesanan"
+                                            class="form-control border-danger">
+                                    </div>
+                                    <div class="mb-3" id="pilihHargaDiv">
+                                        <label class="text-danger">Pilih Area Pengantaran</label>
+                                        <select name="id_harga_pengantaran" id="id_harga_pengantaran"
+                                            class="form-control">
+                                            <option value="-">Pilih Area</option>
+                                            @foreach (App\Models\HargaPengantaran::all() as $item)
+                                                <option value="{{ $item->id }}">{{ $item->area }} - Rp
+                                                    {{ number_format($item->harga) }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-3" id="nomorPenerimaDiv">
@@ -209,22 +226,32 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pengantaranSelect = document.getElementById('pengantaranSelect');
+            const jenisSelect = document.getElementById('jenisSelect');
             const nomorPenerimaDiv = document.getElementById('nomorPenerimaDiv');
             const alamatPengantaranDiv = document.getElementById('alamatPengantaranDiv');
             const nomorPenerimaInput = document.getElementById('nomorPenerima');
             const alamatPengantaranTextarea = document.getElementById('alamatPengantaran');
+            const pilihHargaDiv = document.getElementById('pilihHargaDiv');
+            const tanggalPesananDiv = document.getElementById('tanggalPesananDiv');
 
             function updateVisibility() {
                 if (pengantaranSelect.value === '1') {
                     nomorPenerimaDiv.classList.remove('hidden');
                     alamatPengantaranDiv.classList.remove('hidden');
+                    pilihHargaDiv.classList.remove('hidden');
                     nomorPenerimaInput.disabled = false;
                     alamatPengantaranTextarea.disabled = false;
                 } else {
                     nomorPenerimaDiv.classList.add('hidden');
                     alamatPengantaranDiv.classList.add('hidden');
+                    pilihHargaDiv.classList.add('hidden');
                     nomorPenerimaInput.disabled = true;
                     alamatPengantaranTextarea.disabled = true;
+                }
+                if (jenisSelect.value === 'pre-order') {
+                    tanggalPesananDiv.classList.remove('hidden');
+                } else {
+                    tanggalPesananDiv.classList.add('hidden');
                 }
             }
 
@@ -232,6 +259,7 @@
             updateVisibility();
 
             // Update visibility on change event
+            jenisSelect.addEventListener('change', updateVisibility);
             pengantaranSelect.addEventListener('change', updateVisibility);
         });
     </script>
