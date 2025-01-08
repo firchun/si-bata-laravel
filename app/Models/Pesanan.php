@@ -23,11 +23,16 @@ class Pesanan extends Model
     {
         return $this->belongsTo(HargaPengantaran::class, 'id_harga_pengantaran');
     }
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class, 'id_pesanan', 'id');
+    }
     static function getCountPesananUser($id_user)
     {
         $jumlah = Self::where('id_user', $id_user)->count();
         return $jumlah;
     }
+
     static function getCountPesananSeller($id_seller)
     {
         $jumlah = Self::where('id_seller', $id_seller)->count();
