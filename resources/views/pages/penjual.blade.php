@@ -39,7 +39,9 @@
                                         ret</small></p>
                                 <span
                                     class="badge my-1 badge-{{ App\Models\Stok::getStokSeller($item->id) == 0 ? 'danger' : 'success' }}">{{ App\Models\Stok::getStokSeller($item->id) == 0 ? 'Habis' : 'Tersedia' }}
-                                </span> | <i class="fa fa-star text-warning"></i> <b>5.0</b> ( 2 Ulasan)
+                                </span> | <i class="fa fa-star text-warning"></i>
+                                <b>{{ App\Models\Rating::getRatingSeller($item->id) }}</b> (
+                                {{ App\Models\Rating::getUlasanSeller($item->id) }} Ulasan)
                                 <p class="my-0"><strong>Alamat </strong> : {{ $item->alamat }}</p>
                                 <a href="{{ url('detail', $item->id) }}" class="stretched-link"></a>
                             </div>

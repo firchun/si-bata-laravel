@@ -35,4 +35,9 @@ class Rating extends Model
             ->count();
         return $total;
     }
+    static function getIsiUlasanSeller($id_seller)
+    {
+        $ulasan = self::where('id_seller', $id_seller)->get();
+        return $ulasan;
+    }
 }
