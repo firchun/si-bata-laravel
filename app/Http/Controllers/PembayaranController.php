@@ -24,7 +24,9 @@ class PembayaranController extends Controller
         $pembayaran = Pembayaran::with(['pesanan', 'user', 'bank_admin'])->orderByDesc('id');
         if (Auth::user()->role == 'Seller') {
             $pembayaran->whereHas('pesanan', function ($query) {
-                $query->where('id_seller', Auth::id());
+                $query->whereHas('seller', function ($query) {
+                    $query->where('id_user', Auth::id());
+                });
             });
         }
 
