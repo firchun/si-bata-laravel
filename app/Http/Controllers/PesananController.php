@@ -126,7 +126,7 @@ class PesananController extends Controller
         }
         $pesananData = [
             'id_seller' => $request->input('id_seller'),
-            'id_harga_pengantaran' => $request->input('id_harga_pengantaran'),
+            'id_harga_pengantaran' => $request->input('id_harga_pengantaran') === '-' ? null : $request->input('id_harga_pengantaran'),
             'jenis' => $request->input('jenis'),
             'jumlah' => $request->input('jumlah'),
             'pengantaran' => $request->input('pengantaran'),
