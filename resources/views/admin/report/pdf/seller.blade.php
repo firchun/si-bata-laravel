@@ -69,8 +69,8 @@
                         <td>{{ $item->jumlah }}</td>
                         <td>{{ $item->harga }}</td>
                         <td>{{ $item->total_harga }}</td>
-                        <td>{{ $item->pengantaran }}</td>
-                        <td>{{ $item->is_verified }}</td>
+                        <td>{{ $item->pengantaran == 1 ? 'Diantar' : 'Ambil ditempat' }}</td>
+                        <td>{{ $item->is_verified == 1 ? 'Diterima' : 'Menunggu' }}</td>
                     </tr>
                 @endforeach
             </tbody>

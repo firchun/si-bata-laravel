@@ -89,8 +89,11 @@
                                 <li>Ambil ditempat</li>
                             @endif
                             @if ($seller->pengantaran == 1)
-                                <li>Pengantaran <span class="badge badge-danger">Rp
-                                        {{ number_format($seller->harga_pengantaran) }}</span>
+                                <li>Pengantaran
+                                    {{-- <span class="badge badge-danger">
+                                        Rp
+                                        {{ number_format($seller->harga_pengantaran) }}
+                                    </span> --}}
                                 </li>
                             @endif
                         </ol>
@@ -130,11 +133,21 @@
                                             placeholder="Nama Pemesan" value="{{ Auth::user()->name }}" readonly>
                                     </div> --}}
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                             <div class="mb-3">
                                                 <label class="text-danger">Jumlah</label>
                                                 <input type="number" name="jumlah" class="form-control border-danger"
                                                     value="1" min="1">
+                                            </div>
+                                        </div> --}}
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="text-danger">Jumlah</label>
+                                                <div class="input-group">
+                                                    <input type="number" name="jumlah" class="form-control border-danger"
+                                                        value="1" min="1">
+                                                    <span class="input-group-text">buah</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
