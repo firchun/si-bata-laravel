@@ -28,12 +28,12 @@ class PesananController extends Controller
                 return $nama . $email;
             })
             ->addColumn('jumlah', function ($Pesanan) {
-                $jumlah = '<strong>' . $Pesanan->jumlah . '</strong> <small>Ret</small>';
+                $jumlah = '<strong>' . $Pesanan->jumlah . '</strong> <small>Buah</small>';
                 return $jumlah;
             })
             ->addColumn('harga', function ($Pesanan) {
                 $total = '<strong class="text-danger">Rp ' . number_format($Pesanan->total_harga) . '</strong>';
-                $satuan = '<br><small> Rp ' . number_format($Pesanan->harga) . ' / Ret</small>';
+                $satuan = '<br><small> Rp ' . number_format($Pesanan->harga) . ' / buah</small>';
                 return $total . $satuan;
             })
             ->addColumn('pengantaran', function ($Pesanan) {
@@ -76,12 +76,12 @@ class PesananController extends Controller
                 return $nama . $email;
             })
             ->addColumn('jumlah', function ($Pesanan) {
-                $jumlah = '<strong>' . $Pesanan->jumlah . '</strong> <small>Ret</small>';
+                $jumlah = '<strong>' . $Pesanan->jumlah . '</strong> <small>Buah</small>';
                 return $jumlah;
             })
             ->addColumn('harga_text', function ($Pesanan) {
                 $total = '<strong class="text-danger">Rp ' . number_format($Pesanan->total_harga) . '</strong>';
-                $satuan = '<br><small> Rp ' . number_format($Pesanan->harga) . ' / Ret</small>';
+                $satuan = '<br><small> Rp ' . number_format($Pesanan->harga) . ' / buah</small>';
                 return $total . $satuan;
             })
             ->addColumn('pengantaran_text', function ($Pesanan) {

@@ -67,12 +67,12 @@
 
                             <span class="text-danger h3 mb-4 font-weight-bold">Rp
                                 {{ number_format($seller->harga_batu) }}</span><small>/
-                                Ret</small>
+                                Buah</small>
                         </div>
                         <div class="d-flex mb-2 align-items-end">
                             <span>Stok Batu :&nbsp; </span>
                             <h5 class="m-0 p-0 text-danger">{{ App\Models\Stok::getStokSeller($seller->id) }}</h5>&nbsp;
-                            <span> Ret</span>
+                            <span> Buah</span>
                         </div>
                         <strong>Penjual :</strong>
                         <p class="text-mutted px-2">{{ $seller->user->name }} <br>

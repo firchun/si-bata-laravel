@@ -149,7 +149,7 @@
                     <tr>
                         <td><strong>Jumlah Pemesanan</strong></td>
                         <td>:</td>
-                        <td><strong class="text-danger h4">{{ $pesanan->jumlah }}</strong> Ret</td>
+                        <td><strong class="text-danger h4">{{ $pesanan->jumlah }}</strong> Buah</td>
                     </tr>
                     <tr>
                         <td><strong>Pengantaran</strong></td>
@@ -220,7 +220,7 @@
                         <td><strong>Harga Batu Bata</strong></td>
                         <td>:</td>
                         <td><strong class="text-danger">Rp {{ number_format($pesanan->seller->harga_batu) }}</strong> x
-                            {{ $pesanan->jumlah }} Ret
+                            {{ $pesanan->jumlah }} Buah
                         </td>
                     </tr>
                     @if ($pesanan->pengantaran == 1)

@@ -36,7 +36,7 @@
                                 <img src="{{ Storage::url($item->foto_1) }}" alt="foto" style="border-radius: 10px;">
                                 <p class="mt-2 mb-0"><span class="text-danger h4 font-weight-bold">Rp
                                         {{ number_format($item->harga_batu) }}</span><small>/
-                                        ret</small></p>
+                                        buah</small></p>
                                 <span
                                     class="badge my-1 badge-{{ App\Models\Stok::getStokSeller($item->id) == 0 ? 'danger' : 'success' }}">{{ App\Models\Stok::getStokSeller($item->id) == 0 ? 'Habis' : 'Tersedia' }}
                                 </span> | <i class="fa fa-star text-warning"></i>

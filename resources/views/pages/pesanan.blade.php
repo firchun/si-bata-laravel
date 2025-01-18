@@ -28,7 +28,7 @@
                             <td><a
                                     href="{{ route('invoice', $item->no_invoice) }}"><strong>{{ $item->no_invoice }}</strong></a>
                             </td>
-                            <td>{{ $item->jumlah }} Ret</td>
+                            <td>{{ $item->jumlah }} Buah</td>
                             <td class="text-danger">Rp {{ number_format($item->total_harga) }}</td>
                             <td>{{ $item->pengantaran == 1 ? 'Diantar' : 'Ambil ditempat' }}</td>
                             <td>
