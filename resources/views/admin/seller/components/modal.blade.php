@@ -45,7 +45,7 @@
                             <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                 <input id="demo5" type="number" class="form-control" name="jumlah" value="1">
                                 <span class="input-group-addon bootstrap-touchspin-postfix input-group-append">
-                                    <span class="input-group-text">Ret</span>
+                                    <span class="input-group-text">Buah</span>
                                 </span>
                             </div>
                         </div>
