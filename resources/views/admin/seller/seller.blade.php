@@ -26,7 +26,7 @@
             <div class="card-box mb-30">
                 <div class="card-body">
                     <span>Stok Batu</span>
-                    <h5 class="text-danger"><span id="textJumlahStok"></span> Ret</h5>
+                    <h5 class="text-danger"><span id="textJumlahStok"></span> Buah</h5>
                 </div>
                 <div class="card-footer">
                     <div class="btn-group mr-2" role="group" aria-label="First group">
